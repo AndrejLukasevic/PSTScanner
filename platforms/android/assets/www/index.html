@@ -21,11 +21,11 @@
         if (buildType == type) return "visible";
         return "hidden";
     }
-    $( document ).on( "mobileinit", function() {
+    $(document).on("mobileinit", function () {
         $.mobile.loader.prototype.options.disabled = true;
     });
     // As submitted by @Aras
-    $.mobile.loading( "hide" );
+    $.mobile.loading("hide");
     // (or presumably as submitted by @Pnct)
     $.mobile.loading().hide();
     $.mobile.loadingMessage = false;
@@ -176,9 +176,9 @@
     }
 
     function buildUrlFromData(data) {
-        var pagamintaDate = data.type == 'pagaminta' ? getIsoDateTime(new Date()) : '';
-        var pristatytaDate = data.type == 'pristatyta' ? getIsoDateTime(new Date()) : '';
-        var sumontuotaDate = data.type == 'sumontuota' ? getIsoDateTime(new Date()) : '';
+        var pagamintaDate = data.type == 'pagaminta' ? getIsoDateTime() : '';
+        var pristatytaDate = data.type == 'pristatyta' ? getIsoDateTime() : '';
+        var sumontuotaDate = data.type == 'sumontuota' ? getIsoDateTime() : '';
         var url = 'https://docs.google.com/forms/d/1_YZ6OGZi23Og6p5DHR6e8fgRD3riHdQL1TW90TI7wOA/formResponse?ifq&' +
                 'entry_785935363=' + data.code + '&' +
                 'entry.1514666696=' + data.name + '&' +
@@ -188,15 +188,33 @@
         return url;
     }
 
-    function getIsoDateTime(d) {
-        dformat = [d.getFullYear(),
-                    d.getMonth() + 1,
-                    d.getDate()].join('-') + ' ' +
-                [d.getHours(),
-                    d.getMinutes(),
-                    d.getSeconds()].join(':');
-        return dformat;
+
+    function getIsoDateTime() {
+        now = new Date();
+        year = "" + now.getFullYear();
+        month = "" + (now.getMonth() + 1);
+        if (month.length == 1) {
+            month = "0" + month;
+        }
+        day = "" + now.getDate();
+        if (day.length == 1) {
+            day = "0" + day;
+        }
+        hour = "" + now.getHours();
+        if (hour.length == 1) {
+            hour = "0" + hour;
+        }
+        minute = "" + now.getMinutes();
+        if (minute.length == 1) {
+            minute = "0" + minute;
+        }
+        second = "" + now.getSeconds();
+        if (second.length == 1) {
+            second = "0" + second;
+        }
+        return year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + second;
     }
+
 
     function openURL(url) {
         window.open(url, '_blank', 'location=yes');
