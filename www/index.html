@@ -4,86 +4,103 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="msapplication-tap-highlight" content="no">
     <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
-    <title>QRCode Reader APP</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>PST Scanner</title>
 </head>
 <body>
-
-<div data-role="page" id="home">
-    <div data-role="header">
-        <h1>PST Scanner</h1>
-    </div>
-
-    <div data-role="main" class="ui-content">
-        <p>
-            <input type="text" name="name" placeholder="Vardas" id="name">
-        </p>
-
-        <p>
-            <input type="text" name="name" placeholder="Code" id="code">
-            <a target="_blank" href="javascript:scan();" style="text-decoration: none">
-                <button>Skenuoti</button>
-            </a>
-        </p>
-    </div>
-
-    <div data-role="main" class="ui-content">
-        <p>
-            <a href="javascript:collectAndSend('pagaminta');" style="text-decoration: none">
-                <button>PAGAMINTA</button>
-            </a>
-            <br><br>
-            <a href="javascript:collectAndSend('pristatyta');" style="text-decoration: none">
-                <button>PRISTATYTA</button>
-            </a>
-            <br><br>
-            <a href="javascript:collectAndSend('sumontuota');" style="text-decoration: none">
-                <button>SUMONTUOTA</button>
-            </a>
-        </p>
-    </div>
-</div>
-
-<div data-role="page" id="display">
-    <div data-role="header">
-        <a target="_blank" href="#home" class="ui-btn ui-icon-home ui-btn-icon-left">Home</a>
-
-        <h1>Display</h1>
-    </div>
-
-    <div data-role="main" class="ui-content">
-        <table data-role="table" data-mode="column" id="allTable" class="ui-responsive table-stroke">
-            <thead>
-            <tr>
-                <th>Name</th>
-                <th>Value</th>
-            </tr>
-            </thead>
-            <tbody>
-            </tbody>
-        </table>
-    </div>
-</div>
-
 <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
 <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
 <script type="text/javascript" src="cordova.js"></script>
+<script>
+    var BUILD_TYPE_MAKER = 1; // Rodomas tik vienas mygtukas, Pagaminta
+    var BUILD_TYPE_AGENT = 2; // Rodomi du mygtukai, Pristatyta, Sumontuota
+
+    var buildType = BUILD_TYPE_AGENT; // Čia nustatomas build tipas
+
+    function getVisibilityByBuildType(type) {
+        if (buildType == type) return "visible";
+        return "hidden";
+    }
+    $(document).on("mobileinit", function () {
+        $.mobile.loader.prototype.options.disabled = true;
+    });
+    // As submitted by @Aras
+    $.mobile.loading("hide");
+    // (or presumably as submitted by @Pnct)
+    $.mobile.loading().hide();
+    $.mobile.loadingMessage = false;
+</script>
+
+<div data-role="page" id="home" align="center">
+
+    <div id="form" align="center">
+        <div data-role="header">
+            <br>
+            <img src="img/pst_logo.jpg" align="center" style="width: 150px; height: 40px">
+        </div>
+
+        <div data-role="main" class="ui-content">
+
+            <p>
+            <table>
+                <tr>
+                    <td colspan="2">
+                        <input type="text" name="name" placeholder="Vardas" id="name" style="font-size: 14pt">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="text" name="name" placeholder="Code" id="code" style="font-size: 14pt">
+                    </td>
+                    <td>
+                        <a target="_blank" href="javascript:scan();" style="text-decoration: none">
+                            <button><img src="img/barcode.png" align="center" style="width: 20px; height: 20px"></button>
+                        </a>
+                    </td>
+                </tr>
+            </table>
+
+
+            </p>
+        </div>
+
+        <div data-role="main" class="ui-content">
+            <p>
+                <a href="javascript:collectAndSend('pagaminta');" style="text-decoration: none;">
+                    <button id="pagaminta" style="font-size: 14pt">PAGAMINTA</button>
+                </a>
+                <br><br>
+                <a href="javascript:collectAndSend('pristatyta');" style="text-decoration: none;">
+                    <button id="pristatyta" style="font-size: 14pt">PRISTATYTA</button>
+                </a>
+                <br><br>
+                <a href="javascript:collectAndSend('sumontuota');" style="text-decoration: none;">
+                    <button id="sumontuota" style="font-size: 14pt">SUMONTUOTA</button>
+                </a>
+            </p>
+        </div>
+    </div>
+
+    <div data-role="page" id="progress" style="visibility: hidden; width: 50%; margin: 0 auto;">
+        <h1>Siunčiama...</h1>
+    </div>
+
+    <div align="center">
+        <img align="center" src="img/dycode_logo.png" style="width:150px;height:45px;">
+    </div>
+
+</div>
+
+
 <script>
     function scan() {
         cordova.plugins.barcodeScanner.scan(
                 function (result) {
                     if (!result.cancelled) {
-//                        var name = document.getElementById('name').value;
-                        var code = result.text;
-
-                        document.getElementById('code').value = code;
-
-                        var data = [code];
-                        console.log(data);
-                        localStorage.setItem("LocalData", JSON.stringify(data));
+                        document.getElementById('code').value = result.text;
                     }
                 },
                 function (error) {
-                    alert("Scanning failed: " + error);
                 }
         );
     }
@@ -92,31 +109,170 @@
         var data = {
             "name": document.getElementById('name').value,
             "code": document.getElementById('code').value,
-            "date":  Date(),
-            "type":type
+            "date": Date(),
+            "type": type
         };
         return data;
     }
 
-    function collectAndSend(type){
+    function collectAndSend(type) {
         var data = collectData(type);
+        if (!validateData(data)) {
+            return;
+        }
         sendResult(data);
     }
 
-    function sendResult(data){
-        alert(JSON.stringify(data));
+    function validateData(data) {
+        if (data.name.trim() == '') {
+            alert("Vardas negali būti tuštas")
+            return false;
+        }
+
+        if (data.code.trim() == '') {
+            alert("Kodas negali būti tuštas")
+            return false;
+        }
+
+        return true;
     }
+
+    function sendResult(data) {
+        localStorage.setItem("name", document.getElementById('name').value);
+        sendResultToGoogleForms(data);
+    }
+
+    function sendResultToGoogleForms(data) {
+        var url = buildUrlFromData(data);
+
+        var xhr = createCORSRequest('GET', url);
+        if (!xhr) {
+            alert('CORS not supported');
+            return;
+        }
+        xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
+
+        // Response handlers.
+        xhr.onload = function () {
+            alert("Sekmingai išsiusta");
+            setFormVisibility(true);
+            setProgressBarVisibility(false);
+            document.getElementById('code').value = '';
+            refreshButtonVisibility(false);
+        };
+
+        xhr.onerror = function () {
+            alert("Išsiuntimas nepavyko");
+            setFormVisibility(true);
+            setProgressBarVisibility(false);
+            refreshButtonVisibility(false);
+        };
+
+        setFormVisibility(false);
+        setProgressBarVisibility(true);
+        refreshButtonVisibility(true);
+
+        xhr.send();
+    }
+
+    function buildUrlFromData(data) {
+        var pagamintaDate = data.type == 'pagaminta' ? getIsoDateTime() : '';
+        var pristatytaDate = data.type == 'pristatyta' ? getIsoDateTime() : '';
+        var sumontuotaDate = data.type == 'sumontuota' ? getIsoDateTime() : '';
+        var url = 'https://docs.google.com/forms/d/1_YZ6OGZi23Og6p5DHR6e8fgRD3riHdQL1TW90TI7wOA/formResponse?ifq&' +
+                'entry_785935363=' + data.code + '&' +
+                'entry.1514666696=' + data.name + '&' +
+                'entry.1080079510=' + pagamintaDate + '&' +
+                'entry.941041822=' + pristatytaDate + '&' +
+                'entry.1672425331=' + sumontuotaDate + '&submit=Submit';
+        return url;
+    }
+
+
+    function getIsoDateTime() {
+        now = new Date();
+        year = "" + now.getFullYear();
+        month = "" + (now.getMonth() + 1);
+        if (month.length == 1) {
+            month = "0" + month;
+        }
+        day = "" + now.getDate();
+        if (day.length == 1) {
+            day = "0" + day;
+        }
+        hour = "" + now.getHours();
+        if (hour.length == 1) {
+            hour = "0" + hour;
+        }
+        minute = "" + now.getMinutes();
+        if (minute.length == 1) {
+            minute = "0" + minute;
+        }
+        second = "" + now.getSeconds();
+        if (second.length == 1) {
+            second = "0" + second;
+        }
+        return year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + second;
+    }
+
 
     function openURL(url) {
         window.open(url, '_blank', 'location=yes');
     }
 
-    //initialize
-    if (localStorage.getItem("LocalData") == null) {
-        var data = [];
-        data = JSON.stringify(data);
-        localStorage.setItem("LocalData", data);
+    // Create the XHR object.
+    function createCORSRequest(method, url) {
+        var xhr = new XMLHttpRequest();
+        if ("withCredentials" in xhr) {
+            // XHR for Chrome/Firefox/Opera/Safari.
+            xhr.open(method, url, true);
+        } else if (typeof XDomainRequest != "undefined") {
+            // XDomainRequest for IE.
+            xhr = new XDomainRequest();
+            xhr.open(method, url);
+        } else {
+            // CORS not supported.
+            xhr = null;
+        }
+        return xhr;
     }
+
+    function setFormVisibility(visible) {
+        document.getElementById("form").style.visibility = visible ? "visible" : "hidden";
+    }
+    function setProgressBarVisibility(visible) {
+        document.getElementById("progress").style.visibility = visible ? "visible" : "hidden";
+    }
+
+    //initialize
+    if (localStorage.getItem("name") != null) {
+        document.getElementById('name').value = localStorage.getItem("name");
+    }
+
+    function refreshButtonVisibility(hidell) {
+        var pagaminta = document.getElementById('pagaminta').style;
+        var pristatyta = document.getElementById('pristatyta').style;
+        var sumontuota = document.getElementById('sumontuota').style;
+
+        if (hidell) {
+            pagaminta.visibility = "hidden";
+            pristatyta.visibility = "hidden";
+            sumontuota.visibility = "hidden"
+        } else {
+            if (buildType == BUILD_TYPE_MAKER) {
+                pagaminta.visibility = "visible";
+                pristatyta.visibility = "hidden";
+                sumontuota.visibility = "hidden";
+            } else if (buildType == BUILD_TYPE_AGENT) {
+                pagaminta.visibility = "hidden";
+                pristatyta.visibility = "visible";
+                sumontuota.visibility = "visible";
+            }
+        }
+    }
+
+    refreshButtonVisibility(false);
+
 </script>
 </body>
 </html>

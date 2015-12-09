@@ -15,12 +15,12 @@
         <param name="android-package" value="com.phonegap.plugins.barcodescanner.BarcodeScanner" />
     </feature>
     <allow-intent href="market:*" />
-    <name>QRCodeReader</name>
+    <name>PST Scanner</name>
     <description>
-        A sample Apache Cordova application that responds to the deviceready event.
+        Application for scanning Codes
     </description>
-    <author email="dev@cordova.apache.org" href="http://cordova.io">
-        Apache Cordova Team
+    <author email="andrej@dycode.net">
+        Andrej Lukaševič
     </author>
     <content src="index.html" />
     <access origin="*" />
