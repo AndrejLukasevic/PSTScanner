@@ -15,7 +15,7 @@
     var BUILD_TYPE_MAKER = 1; // Rodomas tik vienas mygtukas, Pagaminta
     var BUILD_TYPE_AGENT = 2; // Rodomi du mygtukai, Pristatyta, Sumontuota
 
-    var buildType = BUILD_TYPE_AGENT; // Čia nustatomas build tipas
+    var buildType = BUILD_TYPE_MAKER; // Čia nustatomas build tipas
 
     function getVisibilityByBuildType(type) {
         if (buildType == type) return "visible";
@@ -45,16 +45,16 @@
             <table>
                 <tr>
                     <td colspan="2">
-                        <input type="text" name="name" placeholder="Vardas" id="name" style="font-size: 14pt">
+                        <input type="text" name="name" placeholder="Vardas" id="name" style="font-size: 15pt">
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        <input type="text" name="name" placeholder="Code" id="code" style="font-size: 14pt">
+                        <input type="text" name="name" placeholder="Code" id="code" style="font-size: 15pt">
                     </td>
                     <td>
                         <a target="_blank" href="javascript:scan();" style="text-decoration: none">
-                            <button><img src="img/barcode.png" align="center" style="width: 20px; height: 20px"></button>
+                            <button><img src="img/barcode.png" align="center" style="width: 35px; height: 35px"></button>
                         </a>
                     </td>
                 </tr>
@@ -67,15 +67,15 @@
         <div data-role="main" class="ui-content">
             <p>
                 <a href="javascript:collectAndSend('pagaminta');" style="text-decoration: none;">
-                    <button id="pagaminta" style="font-size: 14pt">PAGAMINTA</button>
+                    <button id="pagaminta" style="font-size: 20pt">PAGAMINTA</button>
                 </a>
-                <br><br>
+                <br><br><br>
                 <a href="javascript:collectAndSend('pristatyta');" style="text-decoration: none;">
-                    <button id="pristatyta" style="font-size: 14pt">PRISTATYTA</button>
+                    <button id="pristatyta" style="font-size: 20pt">PRISTATYTA</button>
                 </a>
-                <br><br>
+                <br><br><br>
                 <a href="javascript:collectAndSend('sumontuota');" style="text-decoration: none;">
-                    <button id="sumontuota" style="font-size: 14pt">SUMONTUOTA</button>
+                    <button id="sumontuota" style="font-size: 20pt">SUMONTUOTA</button>
                 </a>
             </p>
         </div>
@@ -181,12 +181,12 @@
         var pagamintaDate = data.type == 'pagaminta' ? getIsoDateTime() : '';
         var pristatytaDate = data.type == 'pristatyta' ? getIsoDateTime() : '';
         var sumontuotaDate = data.type == 'sumontuota' ? getIsoDateTime() : '';
-        var url = 'https://docs.google.com/forms/d/1_YZ6OGZi23Og6p5DHR6e8fgRD3riHdQL1TW90TI7wOA/formResponse?ifq&' +
-                'entry_785935363=' + data.code + '&' +
-                'entry.1514666696=' + data.name + '&' +
-                'entry.1080079510=' + pagamintaDate + '&' +
-                'entry.941041822=' + pristatytaDate + '&' +
-                'entry.1672425331=' + sumontuotaDate + '&submit=Submit';
+        var url = 'https://docs.google.com/forms/d/1rs1LaNZSBhe4WBY8Mat9cB3xIUIu8e3n9hMtiuLqqfQ/formResponse?ifq&' +
+                'entry.1901511425=' + data.code + '&' +
+                'entry.335151071=' + data.name + '&' +
+                'entry.1501943557=' + pagamintaDate + '&' +
+                'entry.1853743962=' + pristatytaDate + '&' +
+                'entry.924454311=' + sumontuotaDate + '&submit=Submit';
         return url;
     }
 
