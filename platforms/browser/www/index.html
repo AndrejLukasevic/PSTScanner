@@ -8,16 +8,13 @@
     <title>PST Scanner</title>
 </head>
 <body>
-<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
-<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
-<script type="text/javascript" src="cordova.js"></script>
 <link rel="stylesheet" href="css/bootstrap.css">
 <script>
     var BUILD_TYPE_UNIVERSAL = 0; // Rodomi visi mygtukai,
     var BUILD_TYPE_MAKER = 1; // Rodomas tik vienas mygtukas, Pagaminta
     var BUILD_TYPE_AGENT = 2; // Rodomi du mygtukai, Pristatyta, Sumontuota
 
-    var buildType = BUILD_TYPE_UNIVERSAL; // Čia nustatomas build tipas
+    var buildType = BUILD_TYPE_AGENT; // Čia nustatomas build tipas
 
     $(document).on("mobileinit", function () {
         $.mobile.loader.prototype.options.disabled = true;
@@ -42,7 +39,7 @@
             <br><br>
 
             <div class="input-group">
-                <input id="name" type="text" class="form-control" placeholder="Vardas" aria-describedby="basic-addon1" style="width: 250px">
+                <input id="name" type="text" class="form-control" placeholder="Vardas" aria-describedby="basic-addon1" style="width: 250px;height: 40px">
             </div>
             <br>
 
@@ -50,15 +47,17 @@
                 <tr>
                     <td>
                         <div class="input-group">
-                            <input id="code" type="text" class="form-control" placeholder="Kodas" aria-describedby="basic-addon1" style="width: 200px">
+                            <input id="code" type="text" class="form-control" placeholder="Kodas" aria-describedby="basic-addon1" style="width: 190px;height: 40px">
                         </div>
                     </td>
                     <td>
                         <div style="width: 10px"></div>
                     </td>
+
+
                     <td>
                         <a target="_blank" href="javascript:scan();" style="text-decoration: none">
-                            <button type="button" class="btn btn-default btn-lg" style="width: 40px; height: 40px"><img src="img/barcode.png" align="center" style="width: 20px; height: 20px;display: inline-block;" ></button>
+                            <button type="button" class="btn btn-default btn-lg" style="height: 40px"><span class="glyphicon glyphicon-barcode"></span></button>
                         </a>
                     </td>
                 </tr>
@@ -69,7 +68,7 @@
 
         <div data-role="main" class="ui-content">
             <p>
-                <br>
+                <br><br>
                 <a href="javascript:collectAndSend('pagaminta');" style="text-decoration: none;">
                     <button id="pagaminta" type="button" class="btn btn-default btn-lg" style="width: 250px">
                         PAGAMINTA
@@ -251,10 +250,10 @@
     }
 
     function setFormVisibility(visible) {
-        document.getElementById("form").style.display = visible ? "" : "none";
+        document.getElementById("form").style.display = visible ? "block" : "none";
     }
     function setProgressBarVisibility(visible) {
-        document.getElementById("progress").style.display = visible ? "" : "none";
+        document.getElementById("progress").style.display = visible ? "block" : "none";
     }
 
     //initialize
@@ -273,13 +272,13 @@
             sumontuota.display = "none"
         } else {
             if (buildType == BUILD_TYPE_MAKER) {
-                pagaminta.display = "";
+                pagaminta.display = "block";
                 pristatyta.display = "none";
                 sumontuota.display = "none";
             } else if (buildType == BUILD_TYPE_AGENT) {
                 pagaminta.display = "none";
-                pristatyta.display = "";
-                sumontuota.display = "";
+                pristatyta.display = "block";
+                sumontuota.display = "block";
             }
         }
     }
