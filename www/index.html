@@ -11,16 +11,14 @@
 <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
 <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
 <script type="text/javascript" src="cordova.js"></script>
+<link rel="stylesheet" href="css/bootstrap.css">
 <script>
+    var BUILD_TYPE_UNIVERSAL = 0; // Rodomi visi mygtukai,
     var BUILD_TYPE_MAKER = 1; // Rodomas tik vienas mygtukas, Pagaminta
     var BUILD_TYPE_AGENT = 2; // Rodomi du mygtukai, Pristatyta, Sumontuota
 
-    var buildType = BUILD_TYPE_MAKER; // Čia nustatomas build tipas
+    var buildType = BUILD_TYPE_UNIVERSAL; // Čia nustatomas build tipas
 
-    function getVisibilityByBuildType(type) {
-        if (buildType == type) return "visible";
-        return "hidden";
-    }
     $(document).on("mobileinit", function () {
         $.mobile.loader.prototype.options.disabled = true;
     });
@@ -41,52 +39,65 @@
 
         <div data-role="main" class="ui-content">
 
-            <p>
+            <br><br>
+
+            <div class="input-group">
+                <input id="name" type="text" class="form-control" placeholder="Vardas" aria-describedby="basic-addon1" style="width: 250px">
+            </div>
+            <br>
+
             <table>
                 <tr>
-                    <td colspan="2">
-                        <input type="text" name="name" placeholder="Vardas" id="name" style="font-size: 15pt">
-                    </td>
-                </tr>
-                <tr>
                     <td>
-                        <input type="text" name="name" placeholder="Code" id="code" style="font-size: 15pt">
+                        <div class="input-group">
+                            <input id="code" type="text" class="form-control" placeholder="Kodas" aria-describedby="basic-addon1" style="width: 200px">
+                        </div>
+                    </td>
+                    <td>
+                        <div style="width: 10px"></div>
                     </td>
                     <td>
                         <a target="_blank" href="javascript:scan();" style="text-decoration: none">
-                            <button><img src="img/barcode.png" align="center" style="width: 35px; height: 35px"></button>
+                            <button type="button" class="btn btn-default btn-lg" style="width: 40px; height: 40px"><img src="img/barcode.png" align="center" style="width: 20px; height: 20px;display: inline-block;" ></button>
                         </a>
                     </td>
                 </tr>
             </table>
 
 
-            </p>
         </div>
 
         <div data-role="main" class="ui-content">
             <p>
+                <br>
                 <a href="javascript:collectAndSend('pagaminta');" style="text-decoration: none;">
-                    <button id="pagaminta" style="font-size: 20pt">PAGAMINTA</button>
+                    <button id="pagaminta" type="button" class="btn btn-default btn-lg" style="width: 250px">
+                        PAGAMINTA
+                    </button>
                 </a>
                 <br><br><br>
                 <a href="javascript:collectAndSend('pristatyta');" style="text-decoration: none;">
-                    <button id="pristatyta" style="font-size: 20pt">PRISTATYTA</button>
+                    <button id="pristatyta" type="button" class="btn btn-default btn-lg" style="width: 250px">
+                        PRISTATYTA
+                    </button>
                 </a>
                 <br><br><br>
                 <a href="javascript:collectAndSend('sumontuota');" style="text-decoration: none;">
-                    <button id="sumontuota" style="font-size: 20pt">SUMONTUOTA</button>
+                    <button id="sumontuota" type="button" class="btn btn-default btn-lg" style="width: 250px">
+                        SUMONTUOTA
+                    </button>
                 </a>
             </p>
         </div>
     </div>
 
-    <div data-role="page" id="progress" style="visibility: hidden; width: 50%; margin: 0 auto;">
+    <div data-role="page" id="progress" style="display: none; width: 50%; margin: 0 auto;">
         <h1>Siunčiama...</h1>
     </div>
 
     <br>
     <br>
+
     <div align="center">
         <img align="center" src="img/dycode_logo.png" style="width:150px;height:45px;">
     </div>
@@ -240,10 +251,10 @@
     }
 
     function setFormVisibility(visible) {
-        document.getElementById("form").style.visibility = visible ? "visible" : "hidden";
+        document.getElementById("form").style.display = visible ? "" : "none";
     }
     function setProgressBarVisibility(visible) {
-        document.getElementById("progress").style.visibility = visible ? "visible" : "hidden";
+        document.getElementById("progress").style.display = visible ? "" : "none";
     }
 
     //initialize
@@ -257,18 +268,18 @@
         var sumontuota = document.getElementById('sumontuota').style;
 
         if (hidell) {
-            pagaminta.visibility = "hidden";
-            pristatyta.visibility = "hidden";
-            sumontuota.visibility = "hidden"
+            pagaminta.display = "none";
+            pristatyta.display = "none";
+            sumontuota.display = "none"
         } else {
             if (buildType == BUILD_TYPE_MAKER) {
-                pagaminta.visibility = "visible";
-                pristatyta.visibility = "hidden";
-                sumontuota.visibility = "hidden";
+                pagaminta.display = "";
+                pristatyta.display = "none";
+                sumontuota.display = "none";
             } else if (buildType == BUILD_TYPE_AGENT) {
-                pagaminta.visibility = "hidden";
-                pristatyta.visibility = "visible";
-                sumontuota.visibility = "visible";
+                pagaminta.display = "none";
+                pristatyta.display = "";
+                sumontuota.display = "";
             }
         }
     }
