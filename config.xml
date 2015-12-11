@@ -2,13 +2,17 @@
 <widget id="net.dycode.pstscanner" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>PST Scanner</name>
     <description>
-        Application for scanning Codes
+        Application for scanning PST Parts
     </description>
     <author email="support@dycode.net">
         Dycode
     </author>
     <content src="index.html"/>
     <plugin name="cordova-plugin-whitelist" version="1"/>
+    
+    <icon src="res/pstlogo-square.png" platform="ios"/>
+    <preference name="SplashScreen" value="none"/>
+    
     <access origin="*"/>
     <allow-intent href="http://*/*"/>
     <allow-intent href="https://*/*"/>
@@ -21,7 +25,7 @@
     </platform>
     <platform name="ios">
         <allow-intent href="itms:*"/>
-        <allow-intent href="itms-apps:*"/>
+        <allow-intent href="itms-apps:*"/>        
     </platform>
 </widget>
 

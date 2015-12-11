@@ -27,12 +27,14 @@
     <allow-intent href="itms-apps:*" />
     <name>PST Scanner</name>
     <description>
-        Application for scanning Codes
+        Application for scanning PST Parts
     </description>
     <author email="support@dycode.net">
         Dycode
     </author>
     <content src="index.html" />
+    <icon platform="ios" src="res/pstlogo-square.png" />
+    <preference name="SplashScreen" value="none" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
