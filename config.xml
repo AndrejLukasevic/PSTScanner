@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.sp.qrcode" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="net.dycode.pstscanner" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>PST Scanner</name>
     <description>
         Application for scanning Codes
     </description>
-    <author email="andrej@dycode.net">
-        Andrej Lukaševič
+    <author email="support@dycode.net">
+        Dycode
     </author>
     <content src="index.html"/>
     <plugin name="cordova-plugin-whitelist" version="1"/>

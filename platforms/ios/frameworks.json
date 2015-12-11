@@ -1,0 +1,8 @@
+{
+    "AudioToolbox.framework": 2,
+    "libiconv.dylib": 1,
+    "AVFoundation.framework": 1,
+    "CoreVideo.framework": 1,
+    "QuartzCore.framework": 1,
+    "CoreImage.framework": 1
+}
