@@ -17,7 +17,7 @@
        under the License.
  */
 
-package com.sp.qrcode;
+package net.dycode.pstscanner;
 
 import android.os.Bundle;
 import org.apache.cordova.*;

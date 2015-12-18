@@ -17,7 +17,7 @@
     var BUILD_TYPE_MAKER = 1; // Rodomas tik vienas mygtukas, Pagaminta
     var BUILD_TYPE_AGENT = 2; // Rodomi du mygtukai, Pristatyta, Sumontuota
 
-    var buildType = BUILD_TYPE_AGENT; // Čia nustatomas build tipas
+    var buildType = BUILD_TYPE_MAKER; // Čia nustatomas build tipas
 
     $(document).on("mobileinit", function () {
         $.mobile.loader.prototype.options.disabled = true;
@@ -140,12 +140,12 @@
 
     function validateData(data) {
         if (data.name.trim() == '') {
-            alert("Vardas negali būti tuštas")
+            navigator.notification.alert("Vardas negali būti tuštas", null, "Klaida", "OK");
             return false;
         }
 
         if (data.code.trim() == '') {
-            alert("Kodas negali būti tuštas")
+            navigator.notification.alert("Kodas negali būti tuštas", null, "Klaida", "OK");
             return false;
         }
 
@@ -169,7 +169,7 @@
 
         // Response handlers.
         xhr.onload = function () {
-            alert("Sekmingai išsiusta");
+            navigator.notification.alert("Sekmingai išsiusta", null, "Pavyko", "OK");
             setFormVisibility(true);
             setProgressBarVisibility(false);
             document.getElementById('code').value = '';
@@ -177,7 +177,7 @@
         };
 
         xhr.onerror = function () {
-            alert("Išsiuntimas nepavyko");
+            navigator.notification.alert("Išsiuntimas nepavyko", null, "Klaida", "OK");
             setFormVisibility(true);
             setProgressBarVisibility(false);
             refreshButtonVisibility(false);
